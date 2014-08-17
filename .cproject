@@ -18,7 +18,12 @@
 					<folderInfo id="cdt.managedbuild.config.gnu.exe.debug.1362639551." name="/" resourcePath="">
 						<toolChain id="cdt.managedbuild.toolchain.gnu.exe.debug.1625098501" name="Linux GCC" superClass="cdt.managedbuild.toolchain.gnu.exe.debug">
 							<targetPlatform id="cdt.managedbuild.target.gnu.platform.exe.debug.1071411906" name="Debug Platform" superClass="cdt.managedbuild.target.gnu.platform.exe.debug"/>
-							<builder buildPath="${workspace_loc:/plun}/Debug" id="cdt.managedbuild.target.gnu.builder.exe.debug.849721353" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" superClass="cdt.managedbuild.target.gnu.builder.exe.debug"/>
+							<builder buildPath="${workspace_loc:/plun}/Debug" id="cdt.managedbuild.target.gnu.builder.exe.debug.849721353" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" superClass="cdt.managedbuild.target.gnu.builder.exe.debug">
+								<outputEntries>
+									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name="Debug"/>
+									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name="Release"/>
+								</outputEntries>
+							</builder>
 							<tool id="cdt.managedbuild.tool.gnu.archiver.base.403618025" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base"/>
 							<tool command="g++" commandLinePattern="${COMMAND} ${FLAGS} ${OUTPUT_FLAG} ${OUTPUT_PREFIX}${OUTPUT} ${INPUTS}" id="cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug.821934727" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug">
 								<option id="gnu.cpp.compiler.exe.debug.option.optimization.level.1518681073" name="Optimization Level" superClass="gnu.cpp.compiler.exe.debug.option.optimization.level" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
@@ -43,16 +48,7 @@
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.exe.debug.238186056" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.exe.debug"/>
 							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug.1626913697" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug">
-								<option id="gnu.cpp.link.option.libs.501432652" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
-									<listOptionValue builtIn="false" value="popt"/>
-									<listOptionValue builtIn="false" value="dl"/>
-									<listOptionValue builtIn="false" value="json"/>
-									<listOptionValue builtIn="false" value="pthread"/>
-									<listOptionValue builtIn="false" value="boost_thread"/>
-									<listOptionValue builtIn="false" value="boost_system"/>
-									<listOptionValue builtIn="false" value="boost_log"/>
-									<listOptionValue builtIn="false" value="boost_date_time"/>
-								</option>
+								<option id="gnu.cpp.link.option.libs.501432652" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs"/>
 								<option id="gnu.cpp.link.option.flags.1127782059" name="Linker flags" superClass="gnu.cpp.link.option.flags" value="-Wl,--export-dynamic" valueType="string"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1424254277" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
@@ -61,6 +57,10 @@
 								<outputType id="cdt.managedbuild.tool.gnu.cpp.linker.output.1158390429" outputPrefix="../bin/" superClass="cdt.managedbuild.tool.gnu.cpp.linker.output"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.assembler.exe.debug.867502082" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.exe.debug">
+								<option id="gnu.both.asm.option.include.paths.683738137" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="/usr/include"/>
+									<listOptionValue builtIn="false" value="/usr/local/include"/>
+								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.2105080125" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
 						</toolChain>
@@ -68,6 +68,7 @@
 					<sourceEntries>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="include"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="tools"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -139,6 +140,7 @@
 					<sourceEntries>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="include"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="tools"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>

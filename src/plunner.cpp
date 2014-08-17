@@ -43,7 +43,10 @@ void signal_handler(int h)
 
 void default_setup()
 {
-	g_container->install("plunHost");	//must be installed to connect with this host & services.
+	/* basic component install */
+	g_container->install("plunHost");
+
+	/* Run All installed component */
 	g_container->run_all();
 }
 
