@@ -1,0 +1,52 @@
+/*
+ * $component_name.cpp
+ *
+ *  Created on: $date
+ *      Author: $author
+ */
+
+#include "$component_name.h"
+#include "$include_path/plunLog.h"
+
+namespace plun {
+
+COMPONENT_INSTANCE($component_name)
+COMPONENT_CREATE($component_name)
+COMPONENT_DESTROY
+
+$component_name::$component_name()
+:iComponent(COMPONENT($component_name)) {
+
+
+
+}
+
+$component_name::~$component_name() {
+
+}
+
+/*
+* call once when it be started
+*/
+void $component_name::run()
+{
+
+}
+
+/*
+* call once when it be stopped
+*/
+void $component_name::stop()
+{
+
+}
+
+/*
+* if Request Queue is not empty, request_process will be called.
+*/
+void $component_name::request_process(sRequestMsg* uri)
+{
+
+}
+
+} /* namespace plun */

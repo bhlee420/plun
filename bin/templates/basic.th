@@ -1,0 +1,35 @@
+/*
+ * $component_name.h
+ *
+ *  Created on: $date
+ *      Author: $author
+ *		 Desc. : $short_desc
+ */
+
+#ifndef $component_name_H_
+#define $component_name_H_
+
+#include "$include_path/plun.h"
+#include "$include_path/plunTypedef.h"
+
+
+namespace plun {
+
+class $component_name : public iComponent {
+public:
+	$component_name();
+	virtual ~$component_name();
+
+	/*
+	 * component interface
+	 */
+	virtual void run();
+	virtual void stop();
+	virtual void request_process(sRequestMsg* uri);
+};
+
+COMPONENT_EXPORT
+
+} /* namespace plun */
+
+#endif
