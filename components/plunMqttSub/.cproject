@@ -122,7 +122,7 @@
 							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.so.release.538596174" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.so.release">
 								<option defaultValue="true" id="gnu.cpp.link.so.release.option.shared.1702983543" name="Shared (-shared)" superClass="gnu.cpp.link.so.release.option.shared" valueType="boolean"/>
 								<option id="gnu.cpp.link.option.libs.1751888787" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
-									<listOptionValue builtIn="false" value="mqtt"/>
+									<listOptionValue builtIn="false" value="mosquitto"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.663734586" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>

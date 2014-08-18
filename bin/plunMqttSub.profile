@@ -19,5 +19,9 @@
 			"mqtt_port" : 1883,
 			"use_ethernet" : "eth0",
 			"mqtt_topic" : "@host"
+		},
+	"@API" :
+		{
+			"gethostinfo" : []
 		}
 }

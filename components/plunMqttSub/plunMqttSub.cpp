@@ -8,6 +8,7 @@
 #include "plunMqttSub.h"
 #include "mqttSubscriber.h"
 #include "../../include/plunLog.h"
+#include "../../utils/netutil.h"
 
 namespace plun {
 
