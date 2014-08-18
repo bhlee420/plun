@@ -31,8 +31,11 @@ void createInstnace()
 
 void destroyInstance()
 {
-	g_broker->destroy();
-	g_container->destroy();
+	if(g_broker!=nullptr)
+		g_broker->destroy();
+
+	if(g_container!=nullptr)
+		g_container->destroy();
 }
 
 void signal_handler(int h)
@@ -41,44 +44,39 @@ void signal_handler(int h)
 	exit(0);
 }
 
-void default_setup()
-{
-	/* basic component install */
-	g_container->install("plunHost");
-
-	/* Run All installed component */
-	g_container->run_all();
-}
-
 int main(int argc, const char* argv[])
 {
 	LOG_INFO << "PLUN(Last Build : " << __DATE__ << " " << __TIME__ << ")";
 
 	signal(SIGINT, signal_handler);
 
+	char component_list[1024] = {0,};
+	memset(component_list, 0x00, sizeof(component_list));
+
 	struct poptOption optionTable[] = {
-			{"run", 'r', POPT_ARG_NONE, NULL, 'r', "Run Plunner", NULL},
+			{"with components installation", 'i', POPT_ARG_STRING, component_list, 'i', "install components", NULL},
+			{"test", 't', POPT_ARG_NONE, component_list, 't', "install components", NULL},
 			POPT_AUTOHELP
 			POPT_TABLEEND
 	};
 	poptContext optionCon = poptGetContext(NULL, argc, argv, optionTable, 0);
 	poptSetOtherOptionHelp(optionCon, "[OPTION] *");
 
-	if(argc<2)
-	{
-		poptPrintUsage(optionCon, stderr, 0);
-		return 1;
-	}
+	createInstnace();
 
 	int opt;
 	while((opt = poptGetNextOpt(optionCon))>=0)
 	{
 		switch(opt)
 		{
-		case 'r':
+		case 'i':
 
-			createInstnace();
-			default_setup();
+			/* Install components */
+			for(int n=2; n<argc; n++)
+				g_container->install(argv[n]);
+
+			/* run all components */
+			g_container->run_all();
 
 			while(1)
 			{
@@ -96,8 +94,8 @@ int main(int argc, const char* argv[])
 		}
 	}
 
-	poptFreeContext(optionCon);
 	destroyInstance();
+	poptFreeContext(optionCon);
 
 	return 0;
 }
