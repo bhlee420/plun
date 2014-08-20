@@ -12,9 +12,9 @@ namespace plun {
 
 componentBroker* componentBroker::_instance = nullptr;
 
-void componentBroker::request(const char* component_name, RequestMsg* uri)
+void componentBroker::request(const char* component_name, RequestMsg* msg)
 {
-	componentContainer::getContainer()->request(component_name, uri);
+	componentContainer::getContainer()->request(component_name, msg);
 }
 
 bool componentBroker::install(const char* component_name)
@@ -25,6 +25,11 @@ bool componentBroker::install(const char* component_name)
 bool componentBroker::uninstall(const char* component_name)
 {
 	return componentContainer::getContainer()->uninstall(component_name);
+}
+
+iComponent* componentBroker::getComponent(const char* component_name)
+{
+	return componentContainer::getContainer()->getComponent(component_name);
 }
 
 } /* namespace plun */

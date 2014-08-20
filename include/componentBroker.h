@@ -12,6 +12,7 @@
 
 namespace plun {
 
+class iComponent;
 class componentBroker {
 private:
 	componentBroker() {};
@@ -33,7 +34,15 @@ public:
 			delete _instance;
 	}
 
-	void request(const char* component_name, RequestMsg* uri);
+	/*
+	 * request message to the [component_name] component
+	 */
+	void request(const char* component_name, RequestMsg* msg);
+
+	/*
+	 * getting component pointer for direct access
+	 */
+	iComponent* getComponent(const char* component_name);
 
 	bool install(const char* component_name);
 	bool uninstall(const char* component_name);
