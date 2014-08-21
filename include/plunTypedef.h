@@ -101,20 +101,6 @@ namespace plun
 	} RequestMsg;
 	typedef queue<RequestMsg> RequestMsgQueue;
 
-	typedef struct sPostMsg
-	{
-		Method method;
-		Msg msg;
-		struct sockaddr_in dest_addr;
-		sPostMsg(Method post_method, const char* post_msg, sockaddr_in src, sockaddr_in dest):method(post_method), msg(post_msg), dest_addr(dest){}
-		sPostMsg(const char* req_msg):method(Method::GET), msg(req_msg) { }
-		sPostMsg& operator=(const sPostMsg& ref){
-			method = ref.method;
-			msg = ref.msg;
-			dest_addr = ref.dest_addr;
-			return *this;
-		}
-	} PostMsg;
 
 	typedef struct INFO
 	{
