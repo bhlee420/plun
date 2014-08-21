@@ -90,6 +90,11 @@ public:
 	 */
 	bool exist(const char* component_name);
 
+	/*
+	 * getting component
+	 */
+	iComponent* getComponent(const char* component_name);
+
 private:
 	componentContainer() {};
 

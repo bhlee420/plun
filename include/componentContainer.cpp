@@ -82,13 +82,13 @@ void componentContainer::stop(const char* component_name)
 		itr->second->stop();
 }
 
-void componentContainer::request(const char* component_name, RequestMsg* uri)
+void componentContainer::request(const char* component_name, RequestMsg* msg)
 {
 	Container::iterator itr = _container.find(component_name);
 	if(itr!=_container.end())
 	{
 		LOG_INFO << "push request to " << component_name;
-		itr->second->request(uri);
+		itr->second->request(msg);
 	}
 }
 
@@ -135,6 +135,15 @@ bool componentContainer::__profile_verify(const char* component_name)
 	pf_file.close();
 	cp_file.close();
 	return true;
+}
+
+iComponent* componentContainer::getComponent(const char* component_name)
+{
+	Container::iterator itr = _container.find(component_name);
+	if(itr!=_container.end())
+		return itr->second;
+
+	return nullptr;
 }
 
 } /* namespace plun */
