@@ -1,0 +1,236 @@
+
+#include "MQTTClient.h"
+
+
+MQTTClient::MQTTClient()
+{
+
+}
+MQTTClient::MQTTClient(IPAddress ip, uint16_t port, void(*mqtt_callback)(char*,uint8_t*,int))
+:host_addr(ip), host_port(port)
+{
+  this->mqtt_callback = mqtt_callback;
+}
+
+MQTTClient::MQTTClient(IPAddress ip, uint16_t port)
+:host_addr(ip), host_port(port) 
+{ 
+
+}
+
+uint8_t MQTTClient::readPacket()
+{
+  uint8_t len = 0;
+  buffer[len++] = readByte();
+  uint8_t multiplier = 1;
+  uint8_t length = 0;
+  uint8_t digit = 0;
+  
+  do 
+  {
+    digit = readByte();
+    buffer[len++] = digit;
+    length += (digit & 127) * multiplier;
+    multiplier *= 128;
+  } 
+  while ((digit & 128) != 0);
+
+  for (int i = 0;i<length;i++)
+  {
+    if (len < MQTT_MAX_PACKET_SIZE) 
+    {
+      buffer[len++] = readByte();
+    } 
+    else 
+    {
+      readByte();
+      len = 0; // This will cause the packet to be ignored.
+    }
+  }
+
+  return len;
+}
+
+uint8_t MQTTClient::readByte()
+{
+  while(!_client.available()) { }
+
+  return _client.read();
+}
+  
+int MQTTClient::write(uint8_t header, uint8_t* buf, uint8_t length)
+{
+    _client.write(header);
+    _client.write(length);
+    _client.write(buf, length);
+    return 0;
+}
+
+uint8_t MQTTClient::writeString(char* str, uint8_t* buf, uint8_t pos)
+{
+  char* idp = str;
+  uint8_t i = 0;
+  pos += 2;
+  while(*idp)
+  {
+    buf[pos++] = *idp++;
+    i++;
+  }
+
+  buf[pos-i-2]=0;
+  buf[pos-i-1] = i;
+  return pos;
+}
+
+void MQTTClient::setConnection(IPAddress ip, uint16_t port)
+{ 
+    host_addr = ip; 
+    host_port = port; 
+  }
+
+void MQTTClient::setConnection(IPAddress ip, uint16_t port, void(*mqtt_callback)(char*,uint8_t*,int))
+{
+    host_addr = ip; 
+    host_port = port;
+    this->mqtt_callback = mqtt_callback;
+}
+
+int MQTTClient::connect(char* id)
+{ 
+    return connect(id, 0,0,0,0); 
+}
+
+int MQTTClient::connect(char* id, char* willTopic, uint8_t willQoS, uint8_t willRetain, char* willMessage)
+{
+  if (!connected()) 
+  {
+    if (_client.connect(host_addr,host_port)) 
+    {
+      nextMsgId = 1;
+      uint8_t d[9] = {
+        0x00,0x06,'M','Q','I','s','d','p',MQTTPROTOCOLVERSION                                                        };
+      uint8_t length = 0;
+      int j;
+      for (j = 0;j<9;j++) {
+        buffer[length++] = d[j];
+      }
+      if (willTopic) {
+        buffer[length++] = 0x06|(willQoS<<3)|(willRetain<<5);
+      } 
+      else {
+        buffer[length++] = 0x02;
+      }
+      buffer[length++] = 0;
+      buffer[length++] = (MQTT_KEEPALIVE/1000);
+      length = writeString(id,(uint8_t*)buffer,length);
+      if (willTopic) {
+        length = writeString(willTopic,(uint8_t*)buffer,length);
+        length = writeString(willMessage,(uint8_t*)buffer,length);
+      }
+      write(MQTTCONNECT,(uint8_t*)buffer,length);
+      while (!_client.available()) {
+      }
+      uint8_t len = readPacket();
+
+      if (len == 4 && buffer[3] == 0) {
+        lastActivity = millis();
+        return 1;
+      }
+    }
+    _client.stop();
+  }
+  return 0;
+}
+
+void MQTTClient::disconnect() 
+{
+  _client.write(MQTTDISCONNECT);
+  _client.write((uint8_t)0);
+  _client.stop();
+  lastActivity = millis(); 
+}
+
+int MQTTClient::publish(char* topic, char* payload) 
+{ 
+  return publish(topic, (uint8_t*)payload, strlen(payload)); 
+}
+
+int MQTTClient::publish(char* topic, uint8_t* payload, uint8_t plength)
+{ 
+  return publish(topic, payload, plength, 0); 
+}
+
+int MQTTClient::publish(char* topic, uint8_t* payload, uint8_t plength, uint8_t retained)
+{
+  if(connected()){
+    uint8_t length = writeString(topic, (uint8_t*)buffer, 0);
+    int i;
+    for(i=0;i<plength;i++)
+      buffer[length++] = payload[i];
+    uint8_t header = MQTTPUBLISH;
+    if(retained!=0) header |= 1;
+    write(header, (uint8_t*)buffer, length);
+    return 1;
+  }
+  return 0;
+}
+
+//subscribe
+void MQTTClient::subscribe(char* topic) 
+{
+  if(connected()){
+    uint8_t length=2;
+    nextMsgId++;
+    buffer[0] = nextMsgId >> 8;
+    buffer[1] = nextMsgId - (buffer[0]<<8);
+    length = writeString(topic, (uint8_t*)buffer, length);
+    buffer[length++] = 0;  //qos0
+    write(MQTTSUBSCRIBE, (uint8_t*)buffer, length);
+  }
+}
+
+//connection check
+int MQTTClient::connected() 
+{ 
+  int rc = (int)_client.connected();
+  if(!rc) _client.stop();
+  return rc; 
+}
+
+int MQTTClient::loop()
+{
+  if (connected()) {
+    long t = millis();
+    if (t - lastActivity > MQTT_KEEPALIVE) {
+      _client.write(MQTTPINGREQ);
+      _client.write((uint8_t)0);
+      lastActivity = t;
+    }
+    if (_client.available()) {
+      uint8_t len = readPacket();
+      if (len > 0) {
+        uint8_t type = buffer[0]&0xF0;
+        if (type == MQTTPUBLISH) {
+          if (mqtt_callback) {
+            uint8_t tl = (buffer[2]<<3)+buffer[3];
+            char topic[tl+1];
+            for (int i=0;i<tl;i++) {
+              topic[i] = buffer[4+i];
+            }
+            topic[tl] = 0;
+            // ignore msgID - only support QoS 0 subs
+            uint8_t *payload = (uint8_t*)(buffer+4+tl);
+            mqtt_callback(topic,payload,len-4-tl);
+          }
+        } 
+        else if (type == MQTTPINGREQ) {
+          _client.write(MQTTPINGRESP);
+          _client.write((uint8_t)0);
+          lastActivity = t;
+        }
+      }
+    }
+    return 1;
+  }
+  return 0;
+}
