@@ -34,12 +34,7 @@ public:
 	/*
 	 * getting image data from camera memory buffer
 	 */
-	virtual bool retrieve() = 0;
-
-	/*
-	 * return image pointer
-	 */
-	virtual const unsigned char* getImage() = 0;
+	virtual const char* getImage() = 0;
 
 protected:
 	int _cameraID;

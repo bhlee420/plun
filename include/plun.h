@@ -13,7 +13,7 @@
 #endif
 
 #include "iComponent.h"
-//#include "componentBroker.h"
+#include "componentBroker.h"
 
 #include <boost/thread/thread.hpp>
 #include <boost/shared_ptr.hpp>
@@ -33,9 +33,6 @@ namespace plun
 #define COMPONENT_CREATE(classname) iComponent* create(){ if(_instance==nullptr) _instance = new classname(); return _instance;}
 #define COMPONENT_DESTROY void destroy(){ if(_instance!=nullptr){delete _instance; _instance=nullptr;} }
 #define COMPONENT(classname) #classname
-
-#define DEFAULT_GROUP_ADDRESS	"239.0.0.1"
-#define DEFAULT_GROUP_PORT		8009
 
 }
 

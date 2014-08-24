@@ -2,8 +2,8 @@
 	"@info" :
 		{
 			"gid" : "00000000000000000000000000000000",
-			"name" : "plunMqttSub",
-			"description" : "mqtt subscriber",
+			"name" : "plunSerial",
+			"description" : "PLUN Serial device component profile",
 			"author" : "Nsynapse Inc.",
 			"author_email" : "bhhwang@nsynapse.com",
 			"url" : "www.nsynapse.com",
@@ -11,17 +11,16 @@
 			"version" : "0.0.1",
 			"category" : "system",
 			"tags" : ["device", "host", "system"],
-			"packages" : ["compMqttPub"]
+			"packages" : []
 		},
 		
 	"@property" :
 		{
-			"mqtt_port" : 1883,
-			"use_ethernet" : "eth0",
-			"mqtt_topic" : ["@host"]
+			"port":"dev/ttyUSB0",
+			"baudrate":115200
 		},
 	"@API" :
 		{
-			"gethostinfo" : []
+		
 		}
 }

@@ -23,11 +23,6 @@ public:
 	virtual ~iFaceDetection() { }
 
 	/*
-	 * initialization
-	 */
-	virtual void init() = 0;
-
-	/*
 	 * detected area
 	 */
 	virtual vector<Rectangle> detect(unsigned char* image, unsigned int width, unsigned height) = 0;

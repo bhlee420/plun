@@ -13,6 +13,9 @@
 #include "../../include/plunTypedef.h"
 
 
+#define DEFAULT_GROUP_ADDRESS	"239.0.0.1"
+#define DEFAULT_GROUP_PORT		8009
+
 namespace plun {
 
 class plunHost : public iComponent {

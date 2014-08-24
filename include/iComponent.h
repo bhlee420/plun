@@ -47,7 +47,7 @@ public:
 	iComponent* getInstance() { return _pInstance; }
 	ComponentInfo* getInfo()	{	return _pComponent_info;	}
 	JValue* getProperty() { return _pProperty; }
-	RequestMsgQueue* getURIQueue() { return _pInBox; }
+	RequestMsgQueue* getMsgQueue() { return _pInBox; }
 
 
 	const char* getName() { return _comp_name.c_str(); }
@@ -126,6 +126,11 @@ public:
 			_pInBox->push(RequestMsg(msg, src));
 			_condition.notify_one();
 		}
+	}
+
+	void post(const char* msg)
+	{
+
 	}
 
 protected:

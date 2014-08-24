@@ -102,15 +102,15 @@ void iComponentEx::comp_inner_loop()
 			{
 				boost::mutex::scoped_lock lock(_mutex);
 
-				while(_pInstance->getURIQueue()->empty())
+				while(_pInstance->getMsgQueue()->empty())
 					_pInstance->_condition.wait(lock);
 
-				if(!_pInstance->getURIQueue()->empty())
+				if(!_pInstance->getMsgQueue()->empty())
 				{
-					for(unsigned int n=0;n<_pInstance->getURIQueue()->size();n++)
+					for(unsigned int n=0;n<_pInstance->getMsgQueue()->size();n++)
 					{
-						_pInstance->request_process(&_pInstance->getURIQueue()->front());
-						_pInstance->getURIQueue()->pop();
+						_pInstance->request_process(&_pInstance->getMsgQueue()->front());
+						_pInstance->getMsgQueue()->pop();
 					}
 				}
 			}
