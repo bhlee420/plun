@@ -51,7 +51,7 @@
 								<option id="gnu.cpp.link.option.libs.501432652" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
 									<listOptionValue builtIn="false" value="popt"/>
 									<listOptionValue builtIn="false" value="dl"/>
-									<listOptionValue builtIn="false" value="json"/>
+									<listOptionValue builtIn="false" value="jsoncpp"/>
 									<listOptionValue builtIn="false" value="pthread"/>
 									<listOptionValue builtIn="false" value="boost_thread"/>
 									<listOptionValue builtIn="false" value="boost_system"/>
@@ -128,7 +128,7 @@
 								<option id="gnu.cpp.link.option.libs.474128386" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
 									<listOptionValue builtIn="false" value="popt"/>
 									<listOptionValue builtIn="false" value="dl"/>
-									<listOptionValue builtIn="false" value="json"/>
+									<listOptionValue builtIn="false" value="jsoncpp"/>
 									<listOptionValue builtIn="false" value="pthread"/>
 									<listOptionValue builtIn="false" value="boost_thread"/>
 									<listOptionValue builtIn="false" value="boost_system"/>

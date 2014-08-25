@@ -17,7 +17,7 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/regex.hpp>
 #include <boost/algorithm/string.hpp>
-#include <json/json.h>
+#include <jsoncpp/json/json.h>
 #include <netinet/in.h>
 
 using namespace std;

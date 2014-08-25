@@ -3,7 +3,8 @@
  *
  *  Created on: 14. 08. 24
  *      Author: Byunghun Hwang<bhhwang@nsynapse.com>
- *		 Desc. : plun Sync Serial Component
+ *		 Desc. : plun Serial Component
+ *		 Depenency : libserial
  */
 
 #ifndef PLUNSERIAL_H_
@@ -11,11 +12,11 @@
 
 #include "../../include/plun.h"
 #include "../../include/plunTypedef.h"
+#include <SerialStream.h>
 
-#include <termios.h>
-#include <map>
 
 using namespace std;
+using namespace LibSerial;
 
 namespace plun {
 
@@ -33,10 +34,7 @@ public:
 
 private:
 	int _device;
-	map<unsigned int, int> _baudmap;
-
-	struct termios _io_back;
-	struct termios _io;
+	SerialStream* _serial;
 
 
 

@@ -8,9 +8,7 @@
 #include "plunSerial.h"
 #include "../../include/plunLog.h"
 
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
+using namespace LibSerial;
 
 namespace plun {
 
@@ -19,14 +17,8 @@ COMPONENT_CREATE(plunSerial)
 COMPONENT_DESTROY
 
 plunSerial::plunSerial()
-:iComponent(COMPONENT(plunSerial)),_device(-1) {
+:iComponent(COMPONENT(plunSerial)),_serial(nullptr) {
 
-	_baudmap[4800] = B4800;
-	_baudmap[9600] = B9600;
-	_baudmap[19200] = B19200;
-	_baudmap[38400] = B38400;
-	_baudmap[57600] = B57600;
-	_baudmap[115200] = B115200;
 
 }
 
@@ -42,15 +34,23 @@ void plunSerial::run()
 	string port = getProperty()->get("port", "ttyS0").asString();
 	unsigned int baudrate = getProperty()->get("baudrate", 115200).asUInt();
 
-	_device = open(port.c_str(), O_RDWR|O_NOCTTY);
-	if(_device<0)
-		LOG_ERROR << "Cannot open " << port;
-	else
+	if(_serial==nullptr)
 	{
-		tcgetattr(_device, &_io_back);	//save settings
-		bzero(&_io, sizeof(_io));
-		_io.c_cflag = _baudmap[baudrate] | CRTSCTS | CS8 | CLOCAL | CREAD;
-		_io.c_iflag = IGNPAR | ICRNL;
+		_serial = new SerialStream();
+		_serial->Open(port);
+		switch(baudrate)
+		{
+		case 1200:		_serial->SetBaudRate(SerialStreamBuf::BAUD_1200); break;
+		case 1800:		_serial->SetBaudRate(SerialStreamBuf::BAUD_1800); break;
+		case 2400:		_serial->SetBaudRate(SerialStreamBuf::BAUD_2400); break;
+		case 4800:		_serial->SetBaudRate(SerialStreamBuf::BAUD_4800); break;
+		case 9600:		_serial->SetBaudRate(SerialStreamBuf::BAUD_9600); break;
+		case 19200:	_serial->SetBaudRate(SerialStreamBuf::BAUD_19200); break;
+		case 38400:	_serial->SetBaudRate(SerialStreamBuf::BAUD_38400); break;
+		case 57600:	_serial->SetBaudRate(SerialStreamBuf::BAUD_57600); break;
+		case 115200:	_serial->SetBaudRate(SerialStreamBuf::BAUD_115200); break;
+		}
+		_serial->SetCharSize(SerialStreamBuf::CHAR_SIZE_8);
 	}
 }
 
@@ -59,7 +59,11 @@ void plunSerial::run()
 */
 void plunSerial::stop()
 {
-
+	if(_serial)
+	{
+		delete _serial;
+		_serial = nullptr;
+	}
 }
 
 /*
