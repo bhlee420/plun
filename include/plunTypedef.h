@@ -135,6 +135,7 @@ namespace plun
 		int left_top_x, left_top_y;
 		int right_bottom_x, right_bottom_y;
 	} Rectangle;
+
 }
 
 

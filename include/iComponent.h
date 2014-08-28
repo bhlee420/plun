@@ -39,9 +39,18 @@ public:
 			delete _pProperty;
 	}
 
-
+	/*
+	 * Component Run
+	 * Run own main-thread
+	 */
 	virtual void run() = 0;
+
+	/*
+	 * Component Stop
+	 * Stop own-main-thread (child-thread is stopped also.)
+	 */
 	virtual void stop() = 0;
+
 	virtual void request_process(RequestMsg* msg) = 0;
 
 	iComponent* getInstance() { return _pInstance; }

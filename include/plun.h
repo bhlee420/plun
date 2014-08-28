@@ -27,12 +27,19 @@ using namespace std;
 namespace plun
 {
 
-//macro
+/*
+ * MACRO
+ */
 #define COMPONENT_EXPORT		extern "C" iComponent* create(); extern "C" void destroy(void);
 #define COMPONENT_INSTANCE(classname)	static classname* _instance = nullptr;
 #define COMPONENT_CREATE(classname) iComponent* create(){ if(_instance==nullptr) _instance = new classname(); return _instance;}
 #define COMPONENT_DESTROY void destroy(){ if(_instance!=nullptr){delete _instance; _instance=nullptr;} }
 #define COMPONENT(classname) #classname
+
+/*
+ * Global definitions
+ */
+#define __PLUN_VERSION__		"0.0.1"
 
 }
 
