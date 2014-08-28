@@ -12,11 +12,12 @@
 
 #include "../../include/plun.h"
 #include "../../include/plunTypedef.h"
-#include <SerialStream.h>
+#include "libserial.h"
+#include <queue>
 
+#define BUFFER_SIZE	512
 
 using namespace std;
-using namespace LibSerial;
 
 namespace plun {
 
@@ -33,8 +34,24 @@ public:
 	virtual void request_process(sRequestMsg* msg);
 
 private:
-	int _device;
-	SerialStream* _serial;
+	void read_task();
+	void write_task();
+
+private:
+	/*
+	 * function for service
+	 */
+	int write(char* data, int len); /* write data */
+	int read(char* data, int len);	/* read data */
+
+private:
+	Task _read_task;
+	Task _write_task;
+	libserial* _serial;
+	queue<char> _receive_queue;
+	char* _buffer;
+
+	boost::mutex _lock;
 
 
 
