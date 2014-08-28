@@ -47,6 +47,7 @@ void signal_handler(int h)
 int main(int argc, const char* argv[])
 {
 	LOG_INFO << "PLUN(Last Build : " << __DATE__ << " " << __TIME__ << ")";
+	LOG_INFO << "Version " << __PLUN_VERSION__;
 
 	signal(SIGINT, signal_handler);
 
@@ -54,8 +55,7 @@ int main(int argc, const char* argv[])
 	memset(component_list, 0x00, sizeof(component_list));
 
 	struct poptOption optionTable[] = {
-			{"with components installation", 'i', POPT_ARG_STRING, component_list, 'i', "install components", NULL},
-			{"test", 't', POPT_ARG_NONE, component_list, 't', "install components", NULL},
+			{"install components", 'i', POPT_ARG_STRING, component_list, 'i', "install components", NULL},
 			POPT_AUTOHELP
 			POPT_TABLEEND
 	};
