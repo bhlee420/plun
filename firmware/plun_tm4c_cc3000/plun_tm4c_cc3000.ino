@@ -40,10 +40,10 @@ using namespace ArduinoJson::Parser;
 
 
 
-void registerApi(const char* funcname, void(*func)(void))
+/*void registerApi(const char* funcname, void(*func)(void))
 {
   apiContainer[String(funcname)] = func;
-}
+}*/
 
 
 /*
@@ -95,9 +95,9 @@ void mqtt_callback(char* topic, byte* payload,int length) {
 
 void connect_retry()
 {
-  digitalWrite(RED_LED, LOW);
-  digitalWrite(GREEN_LED, LOW);
-  digitalWrite(BLUE_LED, LOW);
+  digitalWrite(RED_LED, HIGH);
+  digitalWrite(GREEN_LED, HIGH);
+  digitalWrite(BLUE_LED, HIGH);
   
   system_state = WIFI_READY;
 }
@@ -110,19 +110,24 @@ void setup()
   pinMode(RED_LED, OUTPUT);
   pinMode(BLUE_LED, OUTPUT);
   pinMode(GREEN_LED, OUTPUT);
-  pinMode(PF_4, INPUT_PULLUP);
+  //pinMode(PF_4, INPUT_PULLUP);
   
-  attachInterrupt(PF_4, connect_retry, FALLING);
-
-  digitalWrite(RED_LED, HIGH);
+  //attachInterrupt(PF_4, connect_retry, FALLING);
 
 
-  Serial.begin(115200);
+  Serial.begin(9600);
+  Serial.println("0");
+  Serial.println("1");
+  Serial.println("2");  
+  delay(10000);  
+  
+  digitalWrite(RED_LED, LOW);
 
   //cc3000 setup
   WiFi.setCSpin(18);  // 18: P2_2 @ F5529, PE_0 @ LM4F/TM4C
   WiFi.setENpin(2);   //  2: P6_5 @ F5529, PB_5 @ LM4F/TM4C
   WiFi.setIRQpin(19); // 19: P2_0 @ F5529, PB_2 @ LM4F/TM4C
+  
 
   WiFi.begin(ssid, pass);
 
@@ -131,7 +136,7 @@ void setup()
     
   Udp.begin(DEFAULT_UDP_PORT);
 
-  digitalWrite(RED_LED, LOW);    
+  digitalWrite(RED_LED, HIGH);    
   
   system_state = WIFI_READY;    //system start point
 }
@@ -149,7 +154,7 @@ void loop()
   //command for getting gadget profile  
   case GADGET_READY:
     {
-      Serial.println("{Command:0}");
+      //Serial.println("{Command:0}");
       system_state++;
     }
     break;
